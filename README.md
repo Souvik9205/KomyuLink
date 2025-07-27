@@ -1,104 +1,72 @@
-# Community Project
+# KomyuLink
 
-Welcome to the Community Project! This repository is dedicated to building a robust, scalable, and secure web application. Below you'll find an overview of the architecture, setup instructions, and a detailed development roadmap.
+**KomyuLink** is a dynamic community tracker platform designed to connect, inform, and energize your community. It combines event management, resource sharing, real-time leaderboards, and communication tools in a clean, interactive interface with full user authentication.
 
----
+## Features
 
-## Table of Contents
+### 1. Overview Home Page
 
-- [Project Overview](#project-overview)
-- [Tech Stack](#tech-stack)
-- [Getting Started](#getting-started)
-- [Development Roadmap](#development-roadmap)
-- [Contributing](#contributing)
-- [License](#license)
+- Displays essential community details.
+- Integrates social media links for broader community engagement.
 
----
+### 2. Interactive Calendar
 
-## Project Overview
+- Shows both **past events** with access to event resources (documents, videos, links).
+- Displays **upcoming events** with join links for easy participation.
+- Helps users stay informed and involved.
 
-The Community Project aims to deliver a modular backend with strong security and error handling, alongside a modern frontend featuring reusable UI components and effective state management. The backend utilizes Prisma ORM and PostgreSQL, while the frontend is built with React and focuses on maintainability and user experience.
+### 3. Resource Page
 
----
+- Hosts a variety of community resources including documents, videos, and trusted third-party links.
+- Supports read and watch modes for convenient access.
 
-## Tech Stack
+### 4. Feedback & Suggestions
 
-**Backend:**
+- Provides anonymous feedback submission.
+- Includes a **toggle “Contribute”** button redirecting users to Discord for reporting bugs or suggestions.
+- Automatically creates support tickets in Discord to track community issues.
 
-- Node.js
-- Prisma ORM
-- PostgreSQL
-- Docker
-- Sentry (error monitoring)
+### 5. Public Leaderboard
 
-**Frontend:**
+- Integrates with coding platforms like GFG and Codeforces.
+- Users can enter their usernames to see their community leaderboard rankings.
+- Encourages friendly competition and recognition.
 
-- React
-- State management (Redux, Zustand, etc.)
-- Custom UI components
+### 6. Authentication
 
----
+- Secure user authentication to protect user data and personalize experiences.
+- Required for applying to upcoming events and interacting with certain features.
 
-## Getting Started
+### 7. Newsletter Subscription
 
-1. **Clone the repository:**
+- Users can subscribe to receive regular updates and announcements about the community and events.
 
-   ```bash
-   git clone https://github.com/your-org/community.git
-   cd community
-   ```
+## Additional Suggested Public Events Module (Optional)
 
-2. **Set up the database:**
-   - Configure PostgreSQL (see `/database` package)
-   - Use Docker containers for local development
+- Virtual meetups
+- Workshops or webinars
+- Coding challenges
+- Community polls and surveys
+- etc
 
-3. **Install dependencies:**
+## Technology Stack (Suggested)
 
-   ```bash
-   npm install
-   ```
+- Frontend: Next js
+- Backend: Next js
+- Database: PostgreSQL
+- ORM: Prisma
+- Authentication: OAuth , JWT
+- Real-time updates: WebSockets
+- Integration: Discord API for tickets and communication
+- External APIs: Codeforces, GFG APIs for leaderboard data
+- etc
 
-4. **Start development servers:**
-   - Backend: `npm run dev` (see `/backend`)
-   - Frontend: `npm start` (see `/frontend`)
+## Installation & Setup (Example)
 
----
+1. Clone the repository:  
+   `git clone https://github.com/yourusername/komyulink.git`
+2. Updating soon...
 
-## Development Roadmap & TODOs
+## Contribution
 
-### Database Setup
-
-- [ ] Integrate Prisma ORM for database management
-- [ ] Configure PostgreSQL database
-- [ ] Set up Docker for local development
-- [ ] Create a dedicated database package
-- [ ] Define and implement schema package
-
-### Secure Backend
-
-- [ ] Implement robust authorization mechanisms
-- [ ] Add comprehensive error handling
-- [ ] Structure backend code in a modular fashion
-- [ ] Set up rate limiting to prevent abuse
-- [ ] Add input validation for API endpoints
-- [ ] Implement caching strategies for performance
-- [ ] Integrate remote Sentry for error monitoring
-
-### Frontend Development
-
-- [ ] Design and build reusable UI components
-- [ ] Create wireframes for main pages
-- [ ] Set up state management (e.g., Redux, Zustand)
-- [ ] Develop an API client package for backend communication
-
----
-
-## Contributing
-
-We welcome contributions! Please open issues or submit pull requests for improvements and bug fixes. See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
-
----
-
-## License
-
-MIT
+Feel free to contribute by submitting issues or pull requests. Please follow the code of conduct and contribution guidelines.

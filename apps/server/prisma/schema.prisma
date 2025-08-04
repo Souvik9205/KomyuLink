@@ -1,0 +1,183 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  phone     String?  @unique
+  password  String
+  name      String?
+  imgURL    String? 
+  authProvider AuthProvider @default(EMAIL_OTP)
+
+  bio       String?
+  eventsOwned Event[]  @relation("EventOwnership")
+  events    Event[]  @relation("UserEvents")
+  onboarding Onboarding? 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Onboarding {
+  id        String   @id @default(cuid())
+  userId    String   @unique
+  completed Boolean  @default(false)
+  
+  college    String?
+  year       Int?
+  department String?
+  interests  String[] @default([])
+
+  User      User     @relation(fields: [userId], references: [id])
+}
+
+model Event {
+  id          String        @id @default(cuid())
+  name        String
+  description String
+  paymentType EVENT_PAY_TYPE @default(Free)
+  topics     String[]
+  eventDate  DateTime
+  eventStatus EVENT_STATUS @default(Upcoming)
+  eventType  EVENT_TYPE @default(Workshop)
+
+  participantsType PARTICIPANTS_TYPE @default(collegeOnly)
+  participantsLimit Int?
+
+
+  venueType VENUE_TYPE @default(Online)
+  venue    String
+
+  admins      User[]    @relation("EventOwnership")
+  createdBy   User      @relation("UserEvents", fields: [createdById], references: [id])
+  createdById String
+
+  applicationForm ApplicationForm[]
+  attendees   Attendance[]
+  review      Review[]
+
+  resources   EventResource[]
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+}
+
+model ApplicationForm {
+  id        String    @id @default(cuid())
+  eventId   String
+  fieldName String
+  fieldType String    @default("text")
+  Event     Event  @relation(fields: [eventId], references: [id])
+}
+
+model EventResource {
+  id        String         @id @default(cuid())
+  eventId   String
+  title     String
+  description String?
+  url       String
+  type      RESOURCE_TYPE  @default(Document)
+  Event     Event          @relation(fields: [eventId], references: [id])
+  readCount Int        @default(0)
+  likes     Int        @default(0)
+  dislikes  Int        @default(0)
+  comments  String[]   @default([])
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+}
+
+model Attendance {
+  id        String      @id @default(cuid())
+  user      String
+  eventId   String
+  timestamp DateTime @default(now())
+  fields    Json 
+  verified  Boolean 
+
+  Event     Event    @relation(fields: [eventId], references: [id])
+}
+
+model Review {
+  id   String  @id @default(cuid())
+  eventId String @unique
+  participants Int
+  Review Decimal
+
+  Event Event @relation(fields: [eventId], references: [id])
+}
+
+model Otp {
+  id String @id @default(cuid())
+  user String
+  otp String
+  data Json
+  type OTP_Type
+
+  expiresAt DateTime
+}
+
+enum OTP_Type {
+  UserOtp
+  EverntOtp
+  RegisterOtp
+}
+
+enum EVENT_PAY_TYPE {
+  Free
+  Paid
+  Custom
+}
+
+enum EVENT_STATUS {
+  Upcoming
+  Ongoing
+  Completed
+}
+
+enum PARTICIPANTS_TYPE {
+  collegeOnly
+  openToAll
+  reviewBased
+  fresherOnly
+  juniorOnly
+  seniorOnly
+}
+
+enum VENUE_TYPE {
+  Online
+  Offline
+  Hybrid
+}
+
+enum EVENT_TYPE {
+  Workshop
+  Seminar
+  Hackathon
+  Competition
+  Other
+}
+
+enum RESOURCE_TYPE {
+  Document
+  Video
+  Audio
+  Image
+}
+
+enum AuthProvider {
+  GOOGLE
+  GITHUB
+  EMAIL_OTP
+}

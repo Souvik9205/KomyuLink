@@ -1,12 +1,21 @@
 {
-  "name": "community",
+  "name": "komyulink",
+  "version": "0.0.1",
   "private": true,
   "scripts": {
     "build": "turbo run build",
+    "build:server": "turbo run build --filter=@komyulink/server",
+    "build:web": "turbo run build --filter=@komyulink/web",
     "dev": "turbo run dev",
+    "dev:server": "turbo run dev --filter=@komyulink/server",
+    "dev:web": "turbo run dev --filter=@komyulink/web",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "check-types": "turbo run check-types"
+    "check-types": "turbo run check-types",
+    "test:server": "pnpm run --filter=@komyulink/server test:e2e",
+    "db:generate-types": "pnpm run --filter=@komyulink/server db:generate-types",
+    "db:generate-migrations": "pnpm run --filter=@komyulink/server db:generate-migrations",
+    "db:deploy-migrations": "pnpm run --filter=@komyulink/server db:deploy-migrations"
   },
   "devDependencies": {
     "prettier": "^3.6.2",

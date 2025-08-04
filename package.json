@@ -12,7 +12,7 @@
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "check-types": "turbo run check-types",
-    "test:server": "pnpm run --filter=@komyulink/server test:e2e",
+    "test:server": "cd packages/testing && pnpm test",
     "db:generate-types": "pnpm run --filter=@komyulink/server db:generate-types",
     "db:generate-migrations": "pnpm run --filter=@komyulink/server db:generate-migrations",
     "db:deploy-migrations": "pnpm run --filter=@komyulink/server db:deploy-migrations"

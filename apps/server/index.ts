@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import authRouter from "./routes/auth.route";
+import cleanUpRouter from "./routes/cleanUp.route";
 
 const BACKEND_PORT = process.env.BACKEND_PORT || 8080;
 
@@ -10,6 +11,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/api/auth", authRouter);
+app.use("/api/cleanup", cleanUpRouter);
 app.get("/", (req, res) => {
   res.send("Hello");
 });

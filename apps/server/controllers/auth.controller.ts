@@ -3,6 +3,7 @@ import { authGuard } from "../guards/auth.guard";
 import {
   userLoginService,
   userRegisterService,
+  userResendOtpService,
   userVerificationService,
 } from "../services/auth.service";
 
@@ -73,6 +74,25 @@ export const userLoginController = async (req: Request, res: Response) => {
     return res.status(result.status).json({ message: result.message });
   } catch (error) {
     console.error("Error in userLoginController:", error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+export const userResendOtpController = async (req: Request, res: Response) => {
+  const { email } = req.body;
+
+  if (!email) {
+    return res.status(400).json({ message: "Email is required" });
+  }
+  if (!(await authGuard.validateEmail(email))) {
+    return res.status(400).json({ message: "Invalid email format" });
+  }
+
+  try {
+    const result = await userResendOtpService(email);
+    return res.status(result.status).json({ message: result.message });
+  } catch (error) {
+    console.error("Error in userResendOtpController:", error);
     return res.status(500).json({ message: "Internal server error" });
   }
 };

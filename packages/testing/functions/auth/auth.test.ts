@@ -101,6 +101,44 @@ describe("Verify User(email provider) Tests", () => {
   });
 });
 
+describe("Resend OTP Tests", () => {
+  it("Not Email Provided, should return error", async () => {
+    const response = await axiosClient.post(`${API}/auth/user/resend-otp`, {});
+    expect(response.status).toBe(400);
+    expect(response.data.message).toBe("Email is required");
+  });
+  it("Invalid Email Format, should return error", async () => {
+    const response = await axiosClient.post(`${API}/auth/user/resend-otp`, {
+      email: "invalid-email",
+    });
+    expect(response.status).toBe(400);
+    expect(response.data.message).toBe("Invalid email format");
+  });
+  it("Already registered user should return error", async () => {
+    const response = await axiosClient.post(`${API}/auth/user/resend-otp`, {
+      email: registeredEmail,
+    });
+    expect(response.status).toBe(409);
+    expect(response.data.message).toBe("User already registered");
+  });
+  it("No OTP found for this email", async () => {
+    const response = await axiosClient.post(`${API}/auth/user/resend-otp`, {
+      email: "nonexistent@example.com",
+    });
+    expect(response.status).toBe(404);
+    expect(response.data.message).toBe("No OTP found for this email");
+  });
+  it("OTP resesnt successfully", async () => {
+    const response = await axiosClient.post(`${API}/auth/user/resend-otp`, {
+      email: testEmail,
+    });
+    expect(response.status).toBe(200);
+    expect(response.data.message).toBe(
+      "New OTP sent successfully. Please check your email."
+    );
+  });
+});
+
 describe("Login User(email provider) Tests", () => {
   it("All valid fields should be provided", async () => {
     const response = await axiosClient.post(`${API}/auth/login`, {});

@@ -3,6 +3,7 @@ import {
   userLoginController,
   userLogoutController,
   userRegisterController,
+  userResendOtpController,
   userVerificationController,
 } from "../controllers/auth.controller";
 
@@ -12,7 +13,7 @@ authRouter.post("/register", userRegisterController);
 authRouter.post("/verify", userVerificationController);
 authRouter.post("/login", userLoginController);
 //TODO: authRouter.post("/user/refresh-token");
-//TODO: authRouter.post("/user/resend-otp");
+authRouter.post("/user/resend-otp", userResendOtpController);
 //TODO: authRouter.post("/user/forgot-password");
 //TODO: authRouter.post("/user/reset-password");
 

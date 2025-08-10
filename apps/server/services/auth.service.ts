@@ -154,3 +154,43 @@ export const userLoginService = async (
     return { status: 500, message: "Internal server error" };
   }
 };
+
+export const userResendOtpService = async (
+  email: string
+): Promise<AuthSignUpPromise> => {
+  try {
+    const alreadyExists = await authGuard.checkExistingUser(email);
+    if (alreadyExists) {
+      return { status: 409, message: "User already registered" };
+    }
+    const existingOTP = await authGuard.checkExistingOTP(email);
+    if (!existingOTP.success) {
+      return { status: 404, message: "No OTP found for this email" };
+    }
+
+    const newOtp = generateOtp();
+    const otpExpiry = new Date();
+    otpExpiry.setMinutes(otpExpiry.getMinutes() + 5);
+
+    await prisma.otp.update({
+      where: { id: existingOTP.id },
+      data: {
+        otp: newOtp,
+        expiresAt: otpExpiry,
+      },
+    });
+
+    const sendEmail = await EmailSent(email, newOtp, "UserOtp", null);
+    if (!sendEmail) {
+      return { status: 500, message: "Failed to send OTP email" };
+    }
+
+    return {
+      status: 200,
+      message: "New OTP sent successfully. Please check your email.",
+    };
+  } catch (error) {
+    console.error("Error in userResendOtpService:", error);
+    return { status: 500, message: "Internal server error" };
+  }
+};
